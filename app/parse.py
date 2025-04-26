@@ -24,6 +24,14 @@ def get_next_page(page_soup: Tag) -> str:
         return pagination.attrs["href"]
 
 
+def parse_single_quote(page_soup: Tag) -> Quote:
+    quote = Quote(
+        text=page_soup.select_one(".text").text,
+        author=page_soup.select_one(".author").text,
+        tags=[tag.text for tag in page_soup.select(".tags a")]
+    )
+    return quote
+
 
 def scrape_single_page_quotes(page_soup: Tag) -> list[Quote]:
     quotes = page_soup.select(".quote")
